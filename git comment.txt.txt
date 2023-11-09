@@ -1,0 +1,155 @@
+--------------------------------------------初始工作-------------------------------------------
+1. fork仓库  
+$ git clone --mirror https://github.com/code-philia/sjtu-cs7354.git
+
+2.断开连接
+$ git remote rm origin
+
+3.将所有分支pull下来
+$mv code.git/ .git 
+$git config --bool core.bare false 
+$git reset --hard 
+$git branch
+
+4.链接自己的仓库
+$git remote add origin https://github.com/Dcing0727/gittest01.git
+$git push --set-upstream origin main
+---------------------------------------作业1----------------------------------------------------
+1.创建新的分支:（5‘）
+$git checkout -b feature-newFunc
+
+2.在feature-newFunc分支上进行两次提交。（2‘）
+# 在 diary.txt 文件中添加以下内容
+$echo "2023-10-28: Started developing a new feature." >> mydiary/diary.txt
+# 添加更改到暂存区
+$git add mydiary/diary.txt
+# 提交更改
+$git commit -m "Added diary entry for feature work"
+
+# 在 diary.txt 文件中添加以下内容
+$echo "2023-10-29: Continued work on the new feature." >> mydiary/diary.txt
+# 添加更改到暂存区
+$git add mydiary/diary.txt
+# 提交更改
+$git commit -m "Added another diary entry for feature work"
+
+4.合并feature-newFunc分支上的两次提交，并合并整个功能到main分支。（13‘）
+$git checkout main
+$git merge feature-newFunc
+$git push
+
+---------------------------------------------------作业2----------------------------------------------
+1.确保你处于最新的main分支上（2’）
+$git checkout main
+
+2.从experiment分支上获取所需更改（5’）
+$git checkout experiment
+
+$git log
+
+commit decdde71121759e74f830b38ead5dcadf17ecb81 (HEAD -> experiment)
+Author: peri103 <yunruipei@163.com>
+Date:   Thu Nov 2 11:57:27 2023 +0800
+
+    Updated approach results.
+
+commit d58314c014e17c0f8091e4f715836e14815e443d
+Author: peri103 <yunruipei@163.com>
+Date:   Thu Nov 2 11:56:05 2023 +0800
+
+    Added new approach details.
+
+3.应用选中的提交（请选择第一次commit（comment为：Added new approach details.））到main分支（10’）
+$git checkout main
+$git cherry-pick d58314
+
+4..上传更改到远程仓库（3’）
+$git push origin main
+---------------------------------------------------作业3------------------------------------------------
+1.确保在正确的分支上进行操作（2’
+$git checkout dev
+
+2.检查当前的提交历史（3’）
+$git log
+
+commit 7e9812494f2c2df534060a71792962be4d5cbab8 (HEAD -> dev)
+Author: peri103 <yunruipei@163.com>
+Date:   Thu Nov 2 12:05:42 2023 +0800
+
+    Mistakenly added irrelevant content
+
+commit 1a5d6d2f1f36d128e6b9a6a2236fdc0d1113638e
+Author: peri103 <yunruipei@163.com>
+Date:   Thu Nov 2 12:05:17 2023 +0800
+
+    Some content was added repeatedly
+
+commit f9ae8ba11305d96bb9db322e3488c754f176ede0
+Author: peri103 <yunruipei@163.com>
+Date:   Thu Nov 2 12:04:52 2023 +0800
+
+    Add new content
+
+commit 342cb0a86a5535b6ca2fb182089f7369b3958cf9
+Author: peri103 <yunruipei@163.com>
+Date:   Thu Nov 2 12:04:23 2023 +0800
+
+    commit on dev branch
+
+3.回退到目标提交（5’）
+$git revert HEAD
+$git revert 1a5d6
+
+4.再次提交（5’）
+$git add backend/project.txt
+$git commit -m  "add coeect"
+
+5.推送到远程仓库（5’）
+$git push origin dev
+--------------------------------------------------------作业4--------------------------------------------------
+1.在main分支上提交修改:（5’）
+$git checkout main
+$git add frontend/styles.css
+$git commit -m "main modify"
+
+2.切换到feature-upload分支。（5’）
+$git checkout feature-upload
+
+3.查看feature-upload与main分支之间的差异。（5’）
+$git diff main
+
+4.决定是否合并feature-upload分支到main。如果有合并冲突，请解决冲突后合并。（5’）
+合并到main
+$git checkout main
+$git merge feature-upload
+手动修改合并在styles.css文件
+$git add frontend/styles.css
+$git commit -m "Resolved merge conflict in styles.css"
+上传
+$git push origin main
+ 
+------------------------------------------------------作业5----------------------------------
+
+1.切换到documentation分支（3’）
+$git checkout documentation
+
+2.开始交互式重组（5’）
+$git rebase -i HEAD~4
+
+3.重新排列、合并提交（5’）
+文本编辑为
+pick 2fc2e17 Add contributing guide
+pick 9cf2a7d Add installation guide
+pick 1d3dee7 Update project overview with new feature description
+squash 9caa536 Fix description in project overview
+第二次提交相关修改信息
+merge commit of PROJECT_OVERVIEW.md and Change commit Location of install_guide.md.
+$git log 查看合并信息
+
+4.完成重组后，将更改合并回main分支（4’）
+$git checkout main
+$git merge documentation
+
+5.将更改push回远程仓库（3’）
+$git push origin main
+
